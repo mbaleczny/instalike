@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">instalike</string>
+    <string name="log_in">Log in</string>
 </resources>

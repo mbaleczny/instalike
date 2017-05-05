@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".app.login.MainActivity">
+        <activity
+            android:name=".app.login.MainActivity"
+            android:label="@string/log_in">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
