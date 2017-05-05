@@ -11,5 +11,11 @@ public class NewsFeedActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_feed);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.activity_container, NewsFragment.newInstance(), NewsFragment.TAG)
+                    .commit();
+        }
     }
 }

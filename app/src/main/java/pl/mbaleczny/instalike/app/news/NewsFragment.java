@@ -11,7 +11,13 @@ import pl.mbaleczny.instalike.R;
 
 public class NewsFragment extends Fragment {
 
+    public static final String TAG = "NewsFragment";
+
     public NewsFragment() {
+    }
+
+    public static NewsFragment newInstance() {
+        return new NewsFragment();
     }
 
     @Override
