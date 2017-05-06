@@ -3,7 +3,7 @@ package pl.mbaleczny.instalike.domain.model;
 
 import java.util.List;
 
-public class Feed {
+public class News {
 
     private int total;
     private int perPage;

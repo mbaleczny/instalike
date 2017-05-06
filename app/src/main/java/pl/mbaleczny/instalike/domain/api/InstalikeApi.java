@@ -4,14 +4,14 @@ import java.util.List;
 
 import io.reactivex.Single;
 import pl.mbaleczny.instalike.domain.model.Comment;
-import pl.mbaleczny.instalike.domain.model.Feed;
+import pl.mbaleczny.instalike.domain.model.News;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface InstalikeApi {
 
     @GET("/feed")
-    Single<Feed> getFeed(@Query("event_id") long eventId,
+    Single<News> getFeed(@Query("event_id") long eventId,
                          @Query("user_id") long userId,
                          @Query("token") String token);
 

@@ -6,7 +6,7 @@ import io.reactivex.Single;
 import io.reactivex.SingleTransformer;
 import pl.mbaleczny.instalike.domain.api.InstalikeApi;
 import pl.mbaleczny.instalike.domain.model.Comment;
-import pl.mbaleczny.instalike.domain.model.Feed;
+import pl.mbaleczny.instalike.domain.model.News;
 import pl.mbaleczny.instalike.util.scheduler.BaseSchedulerProvider;
 
 public class Repository implements DataSource {
@@ -20,7 +20,7 @@ public class Repository implements DataSource {
     }
 
     @Override
-    public Single<Feed> getFeed(long eventId, long userId, String token) {
+    public Single<News> getNewsFeed(long eventId, long userId, String token) {
         return api.getFeed(eventId, userId, token)
                 .compose(applySchedulers());
     }
