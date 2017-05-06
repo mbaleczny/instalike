@@ -10,12 +10,12 @@ import retrofit2.http.Query;
 
 public interface InstalikeApi {
 
-    @GET("/feed")
+    @GET("feed")
     Single<News> getFeed(@Query("event_id") long eventId,
                          @Query("user_id") long userId,
                          @Query("token") String token);
 
-    @GET("/feed/comments")
+    @GET("feed/comments")
     Single<List<Comment>> getComments(@Query("image_id") long imageId,
                                       @Query("user_id") long userId,
                                       @Query("token") String token);
