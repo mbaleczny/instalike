@@ -55,7 +55,7 @@ public class NewsPresenterTest {
 
         Mockito.verify(view).showProgress();
         Mockito.verify(repo).getNewsFeed(Mockito.eq(1L), Mockito.eq(1L));
-        Mockito.verify(view).setNewsFeed(Mockito.any(News.class));
+        Mockito.verify(view).setPosts(Mockito.anyListOf(Post.class));
         Mockito.verify(view).hideProgress();
     }
 
@@ -69,7 +69,7 @@ public class NewsPresenterTest {
 
         Mockito.verify(view).showProgress();
         Mockito.verify(repo).getNewsFeed(Mockito.eq(1L), Mockito.eq(1L));
-        Mockito.verify(view, Mockito.never()).setNewsFeed(Mockito.any(News.class));
+        Mockito.verify(view, Mockito.never()).setPosts(Mockito.anyListOf(Post.class));
         Mockito.verify(view).showMessage(Mockito.eq("Error"));
         Mockito.verify(view).hideProgress();
     }

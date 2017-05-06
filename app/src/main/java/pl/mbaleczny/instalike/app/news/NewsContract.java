@@ -1,6 +1,8 @@
 package pl.mbaleczny.instalike.app.news;
 
-import pl.mbaleczny.instalike.domain.model.News;
+import java.util.List;
+
+import pl.mbaleczny.instalike.domain.model.Post;
 import pl.mbaleczny.instalike.util.base.BasePresenter;
 import pl.mbaleczny.instalike.util.base.BaseView;
 
@@ -8,7 +10,7 @@ public interface NewsContract {
 
     interface View extends BaseView {
 
-        void setNewsFeed(News news);
+        void setPosts(List<Post> posts);
     }
 
     interface Presenter extends BasePresenter<View> {

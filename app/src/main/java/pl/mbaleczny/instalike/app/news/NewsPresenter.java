@@ -19,7 +19,7 @@ public class NewsPresenter
         view.showProgress();
         disposable.add(repo.getNewsFeed(eventId, userId)
                 .doOnEvent((n, t) -> view.hideProgress())
-                .subscribe(news -> view.setNewsFeed(news), t -> view.showMessage(t.getMessage())));
+                .subscribe(news -> view.setPosts(news.getData()), t -> view.showMessage(t.getMessage())));
     }
 }
 
