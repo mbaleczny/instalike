@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/post_vh_card_margin"
@@ -20,19 +21,38 @@
             android:gravity="center"
             android:padding="@dimen/post_vh_title_padding"
             android:textSize="@dimen/post_vh_title_text_size"
+            android:visibility="gone"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/post_vh_image"
+        <android.support.percent.PercentRelativeLayout
+            android:id="@+id/post_vh_image_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/post_vh_bottom"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/post_vh_title">
+
+            <ImageView
+                android:id="@+id/post_vh_image"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                app:layout_aspectRatio="100%"
+                app:layout_widthPercent="100%"
+                tools:ignore="ContentDescription" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <ProgressBar
+            android:id="@+id/post_vh_progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
             app:layout_constraintBottom_toTopOf="@+id/post_vh_bottom"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/post_vh_title" />
@@ -51,7 +71,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/post_vh_title"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            tools:ignore="ContentDescription" />
 
         <include
             android:id="@+id/post_vh_bottom"
@@ -61,7 +82,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/post_vh_image" />
+            app:layout_constraintTop_toBottomOf="@+id/post_vh_image_layout" />
 
     </android.support.constraint.ConstraintLayout>
 
