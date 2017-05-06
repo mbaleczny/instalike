@@ -4,6 +4,7 @@ import java.util.List;
 
 import io.reactivex.Single;
 import io.reactivex.SingleTransformer;
+import pl.mbaleczny.instalike.BuildConfig;
 import pl.mbaleczny.instalike.domain.api.InstalikeApi;
 import pl.mbaleczny.instalike.domain.model.Comment;
 import pl.mbaleczny.instalike.domain.model.News;
@@ -20,14 +21,14 @@ public class Repository implements DataSource {
     }
 
     @Override
-    public Single<News> getNewsFeed(long eventId, long userId, String token) {
-        return api.getFeed(eventId, userId, token)
+    public Single<News> getNewsFeed(long eventId, long userId) {
+        return api.getFeed(eventId, userId, BuildConfig.DEV_TOKEN)
                 .compose(applySchedulers());
     }
 
     @Override
-    public Single<List<Comment>> getComments(long imageId, long userId, String token) {
-        return api.getComments(imageId, userId, token)
+    public Single<List<Comment>> getComments(long imageId, long userId) {
+        return api.getComments(imageId, userId, BuildConfig.DEV_TOKEN)
                 .compose(applySchedulers());
     }
 
