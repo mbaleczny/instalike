@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">instalike</string>
     <string name="log_in">Log in</string>
+    <string name="first_and_last_name_pattern">%1$s %2$s</string>
 </resources>
