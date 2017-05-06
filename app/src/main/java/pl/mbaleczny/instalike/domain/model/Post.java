@@ -118,4 +118,12 @@ public class Post {
     public void setComments(List<CommentsCount> comments) {
         this.comments = comments;
     }
+
+    public int getCommentsCount() {
+        return comments != null ? comments.size() : 0;
+    }
+
+    public int getLikesCount() {
+        return likes != null ? likes.size() : 0;
+    }
 }
