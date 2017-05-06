@@ -1,6 +1,7 @@
 package pl.mbaleczny.instalike.app.news;
 
 import pl.mbaleczny.instalike.domain.DataSource;
+import pl.mbaleczny.instalike.domain.model.News;
 import pl.mbaleczny.instalike.util.base.AbstractBasePresenter;
 
 public class NewsPresenter
@@ -18,8 +19,9 @@ public class NewsPresenter
     public void onLoadNews(long eventId, long userId) {
         view.showProgress();
         disposable.add(repo.getNewsFeed(eventId, userId)
+                .map(News::getData)
                 .doOnEvent((n, t) -> view.hideProgress())
-                .subscribe(news -> view.setPosts(news.getData()), t -> view.showMessage(t.getMessage())));
+                .subscribe(posts -> view.setPosts(posts), t -> view.showMessage(t.getMessage())));
     }
 }
 

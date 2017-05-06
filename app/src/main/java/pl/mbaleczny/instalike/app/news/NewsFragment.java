@@ -88,7 +88,6 @@ public class NewsFragment extends Fragment implements NewsContract.View {
 
     @Override
     public void setPosts(List<Post> posts) {
-        // TODO: 06.05.17
         postAdapter.swapList(posts);
     }
 
