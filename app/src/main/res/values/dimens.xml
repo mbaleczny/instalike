@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="post_vh_like_btn_margin">10dp</dimen>
+    <dimen name="post_vh_card_margin">20dp</dimen>
+    <dimen name="post_vh_bottom_user_margin">20dp</dimen>
+    <dimen name="post_vh_bottom_user_text_size">20sp</dimen>
+    <dimen name="post_vh_bottom_counter_margin">14dp</dimen>
+    <dimen name="post_vh_bottom_counter_text_size">14sp</dimen>
+    <dimen name="post_vh_bottom_counter_icon_padding">3dp</dimen>
+    <dimen name="post_vh_bottom_height">60dp</dimen>
+    <dimen name="post_vh_title_text_size">14sp</dimen>
+    <dimen name="post_vh_title_padding">10dp</dimen>
+</resources>
