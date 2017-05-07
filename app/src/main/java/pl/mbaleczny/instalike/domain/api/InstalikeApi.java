@@ -18,7 +18,6 @@ public interface InstalikeApi {
 
     @GET("feed/comments")
     Single<List<Comment>> getComments(@Query("image_id") long imageId,
-                                      @Query("user_id") long userId,
                                       @Query("token") String token);
 
     @GET("feed/likes")

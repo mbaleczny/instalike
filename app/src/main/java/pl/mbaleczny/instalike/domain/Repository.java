@@ -28,8 +28,8 @@ public class Repository implements DataSource {
     }
 
     @Override
-    public Single<List<Comment>> getComments(long imageId, long userId) {
-        return api.getComments(imageId, userId, BuildConfig.DEV_TOKEN)
+    public Single<List<Comment>> getComments(long imageId) {
+        return api.getComments(imageId, BuildConfig.DEV_TOKEN)
                 .compose(applySchedulers());
     }
 
