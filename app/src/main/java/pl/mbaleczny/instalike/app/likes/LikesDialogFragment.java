@@ -11,22 +11,44 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import pl.mbaleczny.instalike.App;
 import pl.mbaleczny.instalike.R;
+import pl.mbaleczny.instalike.dagger.likes.DaggerLikesComponent;
+import pl.mbaleczny.instalike.dagger.likes.LikesModule;
 import pl.mbaleczny.instalike.domain.model.User;
 
-public class LikesDialogFragment extends DialogFragment {
+public class LikesDialogFragment extends DialogFragment implements LikesContract.View {
 
     public static final String TAG = "LikesDialogFragment";
-    private static final String USER_LIST_ARG = "userListArg";
 
-    public static LikesDialogFragment newInstance(List<User> users) {
+    private static final String IMAGE_ID_ARG = "imageIdArg";
+
+    @BindView(R.id.dialog_likes_list_progress_bar)
+    ProgressBar progressBar;
+    @BindView(R.id.dialog_likes_list_recycler)
+    RecyclerView userRecycler;
+    @BindView(R.id.dialog_likes_list_message)
+    TextView message;
+
+    @Inject
+    LikesContract.Presenter presenter;
+
+    private LikesRecyclerAdapter likesAdapter;
+
+    public static LikesDialogFragment newInstance(long imageId) {
         Bundle args = new Bundle();
-        args.putParcelableArrayList(USER_LIST_ARG, new ArrayList<>(users));
+        args.putLong(IMAGE_ID_ARG, imageId);
         LikesDialogFragment d = new LikesDialogFragment();
         d.setArguments(args);
         return d;
@@ -36,9 +58,13 @@ public class LikesDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
+
         if (dialog.getWindow() != null) {
             dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         }
+
+        injectDependencies();
+
         return dialog;
     }
 
@@ -46,27 +72,68 @@ public class LikesDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.dialog_likes_list, container);
+        ButterKnife.bind(this, v);
 
-        RecyclerView likesRecycler = (RecyclerView) v.findViewById(R.id.dialog_likes_list_recycler);
-        TextView message = (TextView) v.findViewById(R.id.dialog_likes_list_message);
-
-        if (isUserListNullOrEmpty()) {
-            likesRecycler.setVisibility(View.GONE);
-        } else {
-            message.setVisibility(View.GONE);
-            likesRecycler.setHasFixedSize(true);
-            likesRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-            likesRecycler.setAdapter(new LikesRecyclerAdapter(inflater,
-                    getArguments().getParcelableArrayList(USER_LIST_ARG)));
-        }
+        userRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        likesAdapter = new LikesRecyclerAdapter(inflater);
+        userRecycler.setAdapter(likesAdapter);
 
         return v;
     }
 
-    private boolean isUserListNullOrEmpty() {
-        return getArguments() == null ||
-                getArguments().getParcelableArrayList(USER_LIST_ARG) == null ||
-                getArguments().getParcelableArrayList(USER_LIST_ARG).isEmpty();
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        presenter.attachView(this);
+        if (hasImageIdArgument()) {
+            presenter.onLoadLikes(getArguments().getLong(IMAGE_ID_ARG));
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.attachView(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.detachView();
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showProgress() {
+        // Already shown
+    }
+
+    @Override
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void setUserList(List<User> userList) {
+        if (userList.isEmpty()) {
+            message.setVisibility(View.VISIBLE);
+        }
+        likesAdapter.setUserList(userList);
+    }
+
+    private boolean hasImageIdArgument() {
+        return getArguments() == null || getArguments().containsKey(IMAGE_ID_ARG);
+    }
+
+    private void injectDependencies() {
+        DaggerLikesComponent.builder()
+                .domainComponent(((App) getActivity().getApplication()).getDomainComponent())
+                .likesModule(new LikesModule())
+                .build().inject(this);
     }
 
     private class LikesRecyclerAdapter extends RecyclerView.Adapter<LikesRecyclerAdapter.ViewHolder> {
@@ -74,9 +141,9 @@ public class LikesDialogFragment extends DialogFragment {
         private LayoutInflater inflater;
         private List<User> userList;
 
-        LikesRecyclerAdapter(LayoutInflater inflater, List<User> userList) {
+        LikesRecyclerAdapter(LayoutInflater inflater) {
             this.inflater = inflater;
-            this.userList = userList;
+            userList = new ArrayList<>();
         }
 
         @Override
@@ -92,6 +159,11 @@ public class LikesDialogFragment extends DialogFragment {
         @Override
         public int getItemCount() {
             return userList.size();
+        }
+
+        void setUserList(List<User> userList) {
+            this.userList.addAll(userList);
+            notifyDataSetChanged();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {

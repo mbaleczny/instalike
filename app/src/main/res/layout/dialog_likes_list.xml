@@ -22,6 +22,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <ProgressBar
+            android:id="@+id/dialog_likes_list_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
         <TextView
             android:id="@+id/dialog_likes_list_message"
             android:layout_width="wrap_content"
@@ -29,7 +35,8 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/nobody_has_liked_this_yet"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/colorAccent"
+            android:visibility="gone" />
 
     </FrameLayout>
 
