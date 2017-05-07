@@ -18,7 +18,7 @@ public class PostTest extends BaseModelTest {
                 "\"active\": null,\n" +
                 "\"created_at\": \"2016-01-16 12:00:00\",\n" +
                 "\"updated_at\": \"2016-01-16 12:00:00\",\n" +
-                "\"userLiked\": false,\n" +
+                "\"userLiked\": true,\n" +
                 "\"user\": {\n" +
                 "\"id\": 215,\n" +
                 "\"first_name\": \"Mike\",\n" +
@@ -29,7 +29,12 @@ public class PostTest extends BaseModelTest {
                 "\"role\": \"user\",\n" +
                 "\"active\": null\n" +
                 "},\n" +
-                "\"likes_count\": [],\n" +
+                "\"likes_count\": [" +
+                "{\n" +
+                "\"image_id\": 839,\n" +
+                "\"likes\": 3\n" +
+                "}" +
+                "],\n" +
                 "\"comments_count\": []\n" +
                 "}";
 
@@ -39,9 +44,12 @@ public class PostTest extends BaseModelTest {
         Assert.assertEquals(215, post.getUserId());
         Assert.assertEquals(3, post.getEventId());
         Assert.assertEquals("dummy_url", post.getImageUrl());
-        Assert.assertNull(post.getLikes());
-        Assert.assertNull(post.getComments());
+        Assert.assertNotNull(post.getLikes());
+        Assert.assertEquals(3, post.getLikesCount());
+        Assert.assertNotNull(post.getComments());
+        Assert.assertEquals(0, post.getCommentsCount());
         Assert.assertNotNull(post.getCreatedAt());
+        Assert.assertTrue(post.isUserLiked());
 
         Calendar c = Calendar.getInstance();
         c.setTime(post.getCreatedAt());
