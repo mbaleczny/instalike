@@ -14,6 +14,7 @@ public interface InstalikeApi {
     @GET("feed")
     Single<News> getFeed(@Query("event_id") long eventId,
                          @Query("user_id") long userId,
+                         @Query("page") int page,
                          @Query("token") String token);
 
     @GET("feed/comments")

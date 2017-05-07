@@ -13,11 +13,19 @@ public interface NewsContract {
 
         void setPosts(List<Post> posts);
 
+        void addPosts(List<Post> posts);
+
         void openLikesListView(long imageId);
     }
 
-    interface Presenter extends BasePresenter<View>, OnClickLikesListener<Post> {
+    interface Presenter extends
+            BasePresenter<View>, OnClickLikesListener<Post>,
+            PostRecyclerAdapter.OnLastVisibleItemPositionListener {
 
-        void onLoadNews(long eventId, long userId);
+        void onLoadFirstPage();
+
+        void onLoadNews(int page);
+
+        void setNewsIds(long eventId, long userId);
     }
 }

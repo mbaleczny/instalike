@@ -22,8 +22,8 @@ public class Repository implements DataSource {
     }
 
     @Override
-    public Single<News> getNewsFeed(long eventId, long userId) {
-        return api.getFeed(eventId, userId, BuildConfig.DEV_TOKEN)
+    public Single<News> getNewsFeed(long eventId, long userId, int page) {
+        return api.getFeed(eventId, userId, page, BuildConfig.DEV_TOKEN)
                 .compose(applySchedulers());
     }
 

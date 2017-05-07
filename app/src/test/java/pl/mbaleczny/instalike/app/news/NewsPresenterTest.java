@@ -51,24 +51,26 @@ public class NewsPresenterTest {
     @Test
     public void onLoadNews_isSuccessful() throws Exception {
         presenter.attachView(view);
-        presenter.onLoadNews(1L, 1L);
+        presenter.setNewsIds(1L, 1L);
+        presenter.onLoadFirstPage();
 
         Mockito.verify(view).showProgress();
-        Mockito.verify(repo).getNewsFeed(Mockito.eq(1L), Mockito.eq(1L));
+        Mockito.verify(repo).getNewsFeed(Mockito.eq(1L), Mockito.eq(1L), Mockito.eq(1));
         Mockito.verify(view).setPosts(Mockito.anyListOf(Post.class));
         Mockito.verify(view).hideProgress();
     }
 
     @Test
     public void onLoadNews_throwsException() throws Exception {
-        Mockito.when(repo.getNewsFeed(Mockito.anyLong(), Mockito.anyLong()))
+        Mockito.when(repo.getNewsFeed(Mockito.anyLong(), Mockito.anyLong(), Mockito.anyInt()))
                 .thenReturn(Single.error(new RuntimeException("Error")));
 
         presenter.attachView(view);
-        presenter.onLoadNews(1L, 1L);
+        presenter.setNewsIds(1L, 1L);
+        presenter.onLoadNews(0);
 
         Mockito.verify(view).showProgress();
-        Mockito.verify(repo).getNewsFeed(Mockito.eq(1L), Mockito.eq(1L));
+        Mockito.verify(repo).getNewsFeed(Mockito.eq(1L), Mockito.eq(1L), Mockito.eq(0));
         Mockito.verify(view, Mockito.never()).setPosts(Mockito.anyListOf(Post.class));
         Mockito.verify(view).showMessage(Mockito.eq("Error"));
         Mockito.verify(view).hideProgress();
@@ -80,7 +82,7 @@ public class NewsPresenterTest {
         news.setCurrentPage(1);
         news.setData(Collections.singletonList(new Post()));
 
-        Mockito.when(repo.getNewsFeed(Mockito.anyLong(), Mockito.anyLong()))
+        Mockito.when(repo.getNewsFeed(Mockito.anyLong(), Mockito.anyLong(), Mockito.anyInt()))
                 .thenReturn(Single.just(news));
     }
 }

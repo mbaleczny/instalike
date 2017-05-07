@@ -64,7 +64,7 @@ public class NewsFragment extends Fragment implements NewsContract.View {
 
     private void setupNewsRecycler() {
         postRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        postAdapter = new PostRecyclerAdapter(getContext(), presenter);
+        postAdapter = new PostRecyclerAdapter(getContext(), presenter, presenter);
         postRecycler.setAdapter(postAdapter);
     }
 
@@ -72,7 +72,8 @@ public class NewsFragment extends Fragment implements NewsContract.View {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter.attachView(this);
-        presenter.onLoadNews(eventId.get(), userId.get());
+        presenter.setNewsIds(eventId.get(), userId.get());
+        presenter.onLoadFirstPage();
     }
 
     @Override
@@ -90,6 +91,11 @@ public class NewsFragment extends Fragment implements NewsContract.View {
     @Override
     public void setPosts(List<Post> posts) {
         postAdapter.swapList(posts);
+    }
+
+    @Override
+    public void addPosts(List<Post> posts) {
+        postAdapter.addElements(posts);
     }
 
     @Override

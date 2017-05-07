@@ -9,7 +9,7 @@ import pl.mbaleczny.instalike.domain.model.News;
 
 public interface DataSource {
 
-    Single<News> getNewsFeed(long eventId, long userId);
+    Single<News> getNewsFeed(long eventId, long userId, int page);
 
     Single<List<Comment>> getComments(long imageId);
 

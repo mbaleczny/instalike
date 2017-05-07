@@ -28,12 +28,15 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
     private final LayoutInflater inflater;
     private final List<Post> postList;
     private OnClickLikesListener<Post> onClickLikesListener;
+    private OnLastVisibleItemPositionListener onLastVisibleItemListener;
 
-    public PostRecyclerAdapter(Context context, OnClickLikesListener<Post> onClickLikesListener) {
+    public PostRecyclerAdapter(Context context, OnClickLikesListener<Post> onClickLikesListener,
+                               OnLastVisibleItemPositionListener onLastVisibleItemListener) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.postList = new ArrayList<>();
         this.onClickLikesListener = onClickLikesListener;
+        this.onLastVisibleItemListener = onLastVisibleItemListener;
     }
 
     @Override
@@ -45,6 +48,9 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.bind(postList.get(position));
+        if (position == postList.size() - 1) {
+            onLastVisibleItemListener.call();
+        }
     }
 
     @Override
@@ -57,6 +63,17 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         this.postList.clear();
         this.postList.addAll(posts);
         notifyDataSetChanged();
+    }
+
+    public void addElements(List<Post> posts) {
+        // TODO DiffUtil
+        this.postList.addAll(posts);
+        notifyDataSetChanged();
+    }
+
+    public interface OnLastVisibleItemPositionListener {
+
+        void call();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
