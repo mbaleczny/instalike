@@ -1,17 +1,50 @@
 package pl.mbaleczny.instalike.domain.model;
 
 
-public class User {
+import android.os.Parcel;
+import android.os.Parcelable;
 
+public class User implements Parcelable {
+
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
     private long id;
-
     private String firstName;
     private String lastName;
     private String email;
     private String username;
     private String role;
     private String active;
-    private Object phoneNumber;
+    private String phoneNumber;
+    private String printForm;
+
+    public User() {
+    }
+
+    protected User(Parcel in) {
+        this.id = in.readLong();
+        this.firstName = in.readString();
+        this.lastName = in.readString();
+        this.email = in.readString();
+        this.username = in.readString();
+        this.role = in.readString();
+        this.active = in.readString();
+        this.phoneNumber = in.readParcelable(Object.class.getClassLoader());
+        this.printForm = username;
+    }
+
+    public static Creator<User> getCREATOR() {
+        return CREATOR;
+    }
 
     public long getId() {
         return id;
@@ -53,12 +86,15 @@ public class User {
         this.username = username;
     }
 
-    public Object getPhoneNumber() {
-        return phoneNumber;
+    public String getPrintForm() {
+        if (printForm == null) {
+            return username;
+        }
+        return printForm;
     }
 
-    public void setPhoneNumber(Object phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPrintForm(String printForm) {
+        this.printForm = printForm;
     }
 
     public String getRole() {
@@ -79,5 +115,35 @@ public class User {
 
     public void setActive(String active) {
         this.active = active;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeString(this.firstName);
+        dest.writeString(this.lastName);
+        dest.writeString(this.email);
+        dest.writeString(this.username);
+        dest.writeString(this.role);
+        dest.writeString(this.active);
+        dest.writeString(this.phoneNumber);
+    }
+
+    @Override
+    public String toString() {
+        return getPrintForm();
     }
 }
