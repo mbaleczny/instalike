@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/activity_comment_input_layout"
-        android:background="#fff3f3f3"
+        android:background="@color/headerGray"
         android:clickable="true"
         android:fitsSystemWindows="true">
 
@@ -27,7 +27,7 @@
                 android:background="@android:color/transparent"
                 android:fitsSystemWindows="true"
                 app:contentScrim="?attr/colorPrimary"
-                app:expandedTitleMarginStart="20dp"
+                app:expandedTitleMarginStart="@dimen/activity_comment_toolbar_side_margin"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <ImageView
@@ -36,7 +36,6 @@
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/dummy"
                     app:layout_collapseMode="parallax"
                     tools:ignore="ContentDescription" />
 
@@ -51,11 +50,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
-                    android:paddingEnd="20dp"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingStart="20dp"
-                    android:visibility="gone"
+                    android:paddingEnd="@dimen/activity_comment_toolbar_side_margin"
+                    android:paddingLeft="@dimen/activity_comment_toolbar_side_margin"
+                    android:paddingRight="@dimen/activity_comment_toolbar_side_margin"
+                    android:paddingStart="@dimen/activity_comment_toolbar_side_margin"
+                    android:visibility="visible"
                     app:layout_collapseMode="parallax">
 
                     <TextView
@@ -64,10 +63,9 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginBottom="20dp"
-                        android:text="title"
+                        android:layout_marginBottom="@dimen/activity_comment_toolbar_side_margin"
                         android:textColor="@android:color/white"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/activity_comment_text_text_size" />
 
                 </RelativeLayout>
 
@@ -77,20 +75,20 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|start"
                     android:gravity="start|bottom"
-                    android:paddingEnd="20dp"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingStart="20dp"
+                    android:paddingEnd="@dimen/activity_comment_toolbar_side_margin"
+                    android:paddingLeft="@dimen/activity_comment_toolbar_side_margin"
+                    android:paddingRight="@dimen/activity_comment_toolbar_side_margin"
+                    android:paddingStart="@dimen/activity_comment_toolbar_side_margin"
                     app:layout_collapseMode="pin">
 
                     <TextView
                         android:id="@+id/activity_comment_toolbar_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="15dp"
-                        android:text="COMMENTS"
+                        android:layout_marginBottom="@dimen/activity_comment_toolbar_title_bottom_margin"
+                        android:text="@string/comments_caption_label"
                         android:textColor="@android:color/white"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/activity_comment_toolbar_title_text_size" />
 
                 </RelativeLayout>
 
@@ -100,23 +98,22 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
                     android:gravity="center"
-                    android:paddingEnd="20dp"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingStart="20dp"
+                    android:paddingEnd="@dimen/activity_comment_toolbar_side_margin"
+                    android:paddingLeft="@dimen/activity_comment_toolbar_side_margin"
+                    android:paddingRight="@dimen/activity_comment_toolbar_side_margin"
+                    android:paddingStart="@dimen/activity_comment_toolbar_side_margin"
                     app:layout_collapseMode="parallax">
 
                     <TextView
                         android:id="@+id/activity_comment_likes_counter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="15dp"
+                        android:layout_marginBottom="@dimen/activity_comment_toolbar_title_bottom_margin"
                         android:drawableEnd="@mipmap/heart"
                         android:drawablePadding="@dimen/post_vh_bottom_counter_icon_padding"
                         android:drawableRight="@mipmap/heart"
-                        android:text="0"
                         android:textColor="@android:color/white"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/activity_comment_likes_counter_text_size" />
 
                 </RelativeLayout>
             </android.support.design.widget.CollapsingToolbarLayout>
@@ -135,7 +132,7 @@
                     android:id="@+id/activity_comment_progress_bar_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#3e3e3e"
+                    android:background="@color/darkFont"
                     android:visibility="gone">
 
                     <ProgressBar
@@ -143,7 +140,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="@dimen/activity_comment_progress_bar_top_margin"
                         android:indeterminate="true" />
 
                 </RelativeLayout>
@@ -159,8 +156,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="40dp"
-                        android:text="No comments yet" />
+                        android:layout_marginTop="@dimen/activity_comment_empty_list_label_top_margin"
+                        android:text="@string/no_comments_yet" />
 
                 </RelativeLayout>
 
@@ -176,7 +173,7 @@
     <RelativeLayout
         android:id="@+id/activity_comment_input_layout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/activity_comment_input_layout_height"
         android:layout_alignParentBottom="true"
         android:gravity="center">
 
@@ -186,14 +183,14 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="22dp"
-            android:layout_marginStart="22dp"
+            android:layout_marginLeft="@dimen/activity_comment_input_text_start_margin"
+            android:layout_marginStart="@dimen/activity_comment_input_text_start_margin"
             android:layout_toLeftOf="@+id/activity_comment_input_button"
             android:layout_toStartOf="@+id/activity_comment_input_button"
             android:background="@null"
             android:gravity="start|center_vertical"
-            android:hint="Write a comment..."
-            android:textSize="12sp" />
+            android:hint="@string/write_a_comment"
+            android:textSize="@dimen/activity_comment_input_text_size" />
 
         <ImageView
             android:id="@+id/activity_comment_input_button"
@@ -203,8 +200,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="14dp"
-            android:layout_marginRight="14dp"
+            android:layout_marginEnd="@dimen/activity_comment_input_button_end_margin"
+            android:layout_marginRight="@dimen/activity_comment_input_button_end_margin"
             android:src="@mipmap/send" />
     </RelativeLayout>
 

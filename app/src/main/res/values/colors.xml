@@ -7,4 +7,5 @@
     <color name="darkFont">#3E3E3E</color>
     <color name="lightFont">#979797</color>
     <color name="background">#979797</color>
+    <color name="headerGray">#f3f3f3</color>
 </resources>

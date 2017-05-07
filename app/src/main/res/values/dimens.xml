@@ -16,4 +16,16 @@
     <dimen name="dialog_likes_list_width_height">250dp</dimen>
     <dimen name="likes_item_text_size">14sp</dimen>
     <dimen name="likes_item_padding">10dp</dimen>
+
+    <dimen name="activity_comment_toolbar_title_bottom_margin">11dp</dimen>
+    <dimen name="activity_comment_input_button_end_margin">14dp</dimen>
+    <dimen name="activity_comment_input_text_size">12sp</dimen>
+    <dimen name="activity_comment_input_text_start_margin">22dp</dimen>
+    <dimen name="activity_comment_input_layout_height">50dp</dimen>
+    <dimen name="activity_comment_empty_list_label_top_margin">40dp</dimen>
+    <dimen name="activity_comment_progress_bar_top_margin">20dp</dimen>
+    <dimen name="activity_comment_likes_counter_text_size">14sp</dimen>
+    <dimen name="activity_comment_toolbar_side_margin">20dp</dimen>
+    <dimen name="activity_comment_toolbar_title_text_size">16sp</dimen>
+    <dimen name="activity_comment_text_text_size">14sp</dimen>
 </resources>
