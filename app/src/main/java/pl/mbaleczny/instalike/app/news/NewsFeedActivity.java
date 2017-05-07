@@ -20,7 +20,7 @@ public class NewsFeedActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.activity_container, NewsFragment.newInstance(3L, 2L), NewsFragment.TAG)
+                    .add(R.id.activity_container, NewsFragment.newInstance(3L, 3L), NewsFragment.TAG)
                     .commit();
         }
     }

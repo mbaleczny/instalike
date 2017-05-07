@@ -19,7 +19,6 @@ import dagger.Lazy;
 import pl.mbaleczny.instalike.R;
 import pl.mbaleczny.instalike.app.likes.LikesDialogFragment;
 import pl.mbaleczny.instalike.domain.model.Post;
-import pl.mbaleczny.instalike.domain.model.User;
 
 public class NewsFragment extends Fragment implements NewsContract.View {
 
@@ -65,7 +64,7 @@ public class NewsFragment extends Fragment implements NewsContract.View {
 
     private void setupNewsRecycler() {
         postRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        postAdapter = new PostRecyclerAdapter(getContext());
+        postAdapter = new PostRecyclerAdapter(getContext(), presenter);
         postRecycler.setAdapter(postAdapter);
     }
 
@@ -94,7 +93,7 @@ public class NewsFragment extends Fragment implements NewsContract.View {
     }
 
     @Override
-    public void openLikesListView(List<User> userList) {
+    public void openLikesListView(long userList) {
         LikesDialogFragment.newInstance(userList).show(getFragmentManager(), LikesDialogFragment.TAG);
     }
 

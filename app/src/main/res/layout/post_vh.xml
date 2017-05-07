@@ -39,7 +39,7 @@
             <ImageView
                 android:id="@+id/post_vh_image"
                 android:adjustViewBounds="true"
-                android:scaleType="centerInside"
+                android:scaleType="centerCrop"
                 app:layout_aspectRatio="100%"
                 app:layout_widthPercent="100%"
                 tools:ignore="ContentDescription" />

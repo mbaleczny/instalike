@@ -1,6 +1,7 @@
 package pl.mbaleczny.instalike.app.news;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -10,7 +11,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.mbaleczny.instalike.R;
+import pl.mbaleczny.instalike.app.comment.CommentsActivity;
+import pl.mbaleczny.instalike.app.likes.OnClickLikesListener;
 import pl.mbaleczny.instalike.domain.model.Post;
 
 public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapter.ViewHolder> {
@@ -25,11 +27,13 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
     private final Context context;
     private final LayoutInflater inflater;
     private final List<Post> postList;
+    private OnClickLikesListener<Post> onClickLikesListener;
 
-    public PostRecyclerAdapter(Context context) {
+    public PostRecyclerAdapter(Context context, OnClickLikesListener<Post> onClickLikesListener) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.postList = new ArrayList<>();
+        this.onClickLikesListener = onClickLikesListener;
     }
 
     @Override
@@ -77,6 +81,8 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             if (!TextUtils.isEmpty(post.getComment())) {
                 title.setVisibility(View.VISIBLE);
                 title.setText(post.getComment());
+            } else {
+                title.setVisibility(View.GONE);
             }
 
             user.setText(post.getUser().getUsername());
@@ -91,15 +97,18 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             comments.setText(String.valueOf(post.getCommentsCount()));
 
             likes.setText(String.valueOf(post.getLikesCount()));
-            likes.setOnClickListener(v -> Post.LIKE_LIST_BUS.post(post));
+            likes.setOnClickListener(v -> onClickLikesListener.onClick(post));
 
             like.setBackgroundResource(post.isUserLiked() ?
                     R.mipmap.like_button_selected :
                     R.mipmap.like_button_unselected);
 
             // TODO send to CommentsActivity
-            View.OnClickListener onGoToCommentsListener = v ->
-                    Toast.makeText(context, "Comments", Toast.LENGTH_SHORT).show();
+            View.OnClickListener onGoToCommentsListener = v -> {
+                Intent i = new Intent(v.getContext(), CommentsActivity.class);
+                i.putExtra(CommentsActivity.POST_ARG, post);
+                v.getContext().startActivity(i);
+            };
 
             itemView.findViewById(R.id.post_vh_bottom).setOnClickListener(onGoToCommentsListener);
             image.setOnClickListener(onGoToCommentsListener);
