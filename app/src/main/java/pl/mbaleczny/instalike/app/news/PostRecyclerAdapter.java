@@ -103,7 +103,6 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
                     R.mipmap.like_button_selected :
                     R.mipmap.like_button_unselected);
 
-            // TODO send to CommentsActivity
             View.OnClickListener onGoToCommentsListener = v -> {
                 Intent i = new Intent(v.getContext(), CommentsActivity.class);
                 i.putExtra(CommentsActivity.POST_ARG, post);

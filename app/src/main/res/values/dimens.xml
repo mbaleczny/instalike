@@ -28,4 +28,10 @@
     <dimen name="activity_comment_toolbar_side_margin">20dp</dimen>
     <dimen name="activity_comment_toolbar_title_text_size">16sp</dimen>
     <dimen name="activity_comment_text_text_size">14sp</dimen>
+    <dimen name="comment_vh_content_text_size">10sp</dimen>
+    <dimen name="comment_vh_user_text_size">12sp</dimen>
+    <dimen name="comment_vh_user_bottom_margin">9dp</dimen>
+    <dimen name="comment_vh_margin_top_bottom">17dp</dimen>
+    <dimen name="comment_vh_margin_side">18dp</dimen>
+    <dimen name="comment_vh_card_view_margin_side">10dp</dimen>
 </resources>

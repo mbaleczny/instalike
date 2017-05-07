@@ -4,7 +4,9 @@
     <string name="first_and_last_name_pattern">%1$s %2$s</string>
     <string name="nobody_has_liked_this_yet">Nobody has liked this yet</string>
     <string name="likes">LIKES</string>
-    <string name="write_a_comment">Write a comment...</string>
+    <string name="write_a_comment">Write a comment…</string>
     <string name="no_comments_yet">No comments yet</string>
     <string name="comments_caption_label">COMMENTS</string>
+    <string name="comment_text_pattern">\"%1$s\"</string>
+    <string name="internal_app_error_message">Internal application error occurred</string>
 </resources>
