@@ -7,6 +7,7 @@ import io.reactivex.SingleTransformer;
 import pl.mbaleczny.instalike.BuildConfig;
 import pl.mbaleczny.instalike.domain.api.InstalikeApi;
 import pl.mbaleczny.instalike.domain.model.Comment;
+import pl.mbaleczny.instalike.domain.model.Like;
 import pl.mbaleczny.instalike.domain.model.News;
 import pl.mbaleczny.instalike.util.scheduler.BaseSchedulerProvider;
 
@@ -29,6 +30,12 @@ public class Repository implements DataSource {
     @Override
     public Single<List<Comment>> getComments(long imageId, long userId) {
         return api.getComments(imageId, userId, BuildConfig.DEV_TOKEN)
+                .compose(applySchedulers());
+    }
+
+    @Override
+    public Single<List<Like>> getLikes(long imageId) {
+        return api.getLikes(imageId, BuildConfig.DEV_TOKEN)
                 .compose(applySchedulers());
     }
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import io.reactivex.Single;
 import pl.mbaleczny.instalike.domain.model.Comment;
+import pl.mbaleczny.instalike.domain.model.Like;
 import pl.mbaleczny.instalike.domain.model.News;
 
 public interface DataSource {
@@ -11,4 +12,6 @@ public interface DataSource {
     Single<News> getNewsFeed(long eventId, long userId);
 
     Single<List<Comment>> getComments(long imageId, long userId);
+
+    Single<List<Like>> getLikes(long imageId);
 }
