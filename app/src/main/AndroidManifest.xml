@@ -30,7 +30,8 @@
         <activity
             android:name=".app.comment.CommentsActivity"
             android:parentActivityName=".app.news.NewsFeedActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/CommentsActivityTheme"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>
