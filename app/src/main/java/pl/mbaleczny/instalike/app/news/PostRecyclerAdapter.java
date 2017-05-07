@@ -94,8 +94,8 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             likes.setOnClickListener(v -> Post.LIKE_LIST_BUS.post(post));
 
             like.setBackgroundResource(post.isUserLiked() ?
-                    R.drawable.like_button_sel :
-                    R.drawable.like_button_unsel);
+                    R.mipmap.like_button_selected :
+                    R.mipmap.like_button_unselected);
 
             // TODO send to CommentsActivity
             View.OnClickListener onGoToCommentsListener = v ->

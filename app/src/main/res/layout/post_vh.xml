@@ -65,7 +65,7 @@
             android:layout_marginRight="@dimen/post_vh_like_btn_margin"
             android:layout_marginTop="@dimen/post_vh_like_btn_margin"
             android:adjustViewBounds="true"
-            android:background="@drawable/like_button_unsel"
+            android:background="@mipmap/like_button_unselected"
             app:layout_constraintBottom_toTopOf="@+id/post_vh_bottom"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="parent"
