@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dialog_likes_list_width_height"
+    android:layout_height="@dimen/dialog_likes_list_width_height">
+
+    <TextView
+        android:id="@+id/dialog_likes_list_title"
+        android:layout_width="@dimen/dialog_likes_list_width_height"
+        android:layout_height="@dimen/dialog_likes_list_title_height"
+        android:background="@color/colorAccent"
+        android:gravity="center"
+        android:text="@string/likes"
+        android:textColor="@android:color/white" />
+
+    <FrameLayout
+        android:layout_width="@dimen/dialog_likes_list_width_height"
+        android:layout_height="@dimen/dialog_likes_list_width_height"
+        android:layout_below="@+id/dialog_likes_list_title">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/dialog_likes_list_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/dialog_likes_list_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/nobody_has_liked_this_yet"
+            android:textColor="@color/colorAccent" />
+
+    </FrameLayout>
+
+</RelativeLayout>
