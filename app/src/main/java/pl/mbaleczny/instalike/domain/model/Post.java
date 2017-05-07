@@ -3,7 +3,11 @@ package pl.mbaleczny.instalike.domain.model;
 import java.util.Date;
 import java.util.List;
 
+import pl.mbaleczny.instalike.util.Bus;
+
 public class Post {
+
+    public static final Bus<Post> LIKE_LIST_BUS = new Bus<>();
 
     private long id;
 
@@ -20,8 +24,8 @@ public class Post {
     private Object active;
 
     private User user;
-    private List<LikesCount> likes;
-    private List<CommentsCount> comments;
+    private List<LikesCount> likesCount;
+    private List<CommentsCount> commentsCount;
 
     public long getId() {
         return id;
@@ -104,26 +108,26 @@ public class Post {
     }
 
     public List<LikesCount> getLikes() {
-        return likes;
+        return likesCount;
     }
 
     public void setLikes(List<LikesCount> likes) {
-        this.likes = likes;
+        this.likesCount = likes;
     }
 
     public List<CommentsCount> getComments() {
-        return comments;
+        return commentsCount;
     }
 
     public void setComments(List<CommentsCount> comments) {
-        this.comments = comments;
+        this.commentsCount = comments;
     }
 
     public int getCommentsCount() {
-        return comments != null ? comments.size() : 0;
+        return commentsCount != null ? commentsCount.size() : 0;
     }
 
     public int getLikesCount() {
-        return likes != null ? likes.size() : 0;
+        return likesCount != null ? likesCount.size() : 0;
     }
 }

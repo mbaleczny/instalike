@@ -81,22 +81,17 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
 
             user.setText(post.getUser().getUsername());
             user.setOnClickListener(v -> {
-                        user.setText(String.format(context.getString(R.string.first_and_last_name_pattern),
-                                post.getUser().getFirstName(),
-                                post.getUser().getLastName()));
+                user.setText(
+                        String.format(context.getString(R.string.first_and_last_name_pattern),
+                                post.getUser().getFirstName(), post.getUser().getLastName()));
                         user.setOnClickListener(null);
                     }
             );
 
             comments.setText(String.valueOf(post.getCommentsCount()));
-            comments.setOnClickListener(v -> {
-                // TODO open comments dialog
-            });
 
             likes.setText(String.valueOf(post.getLikesCount()));
-            likes.setOnClickListener(v -> {
-                // TODO open likes dialog
-            });
+            likes.setOnClickListener(v -> Post.LIKE_LIST_BUS.post(post));
 
             like.setBackgroundResource(post.isUserLiked() ?
                     R.drawable.like_button_sel :
@@ -107,7 +102,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
                     Toast.makeText(context, "Comments", Toast.LENGTH_SHORT).show();
 
             itemView.findViewById(R.id.post_vh_bottom).setOnClickListener(onGoToCommentsListener);
-            image.findViewById(R.id.post_vh_bottom).setOnClickListener(onGoToCommentsListener);
+            image.setOnClickListener(onGoToCommentsListener);
 
             Glide.with(context)
                     .load(post.getImageUrl())

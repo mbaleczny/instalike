@@ -11,8 +11,10 @@ import java.util.Collections;
 
 import io.reactivex.Single;
 import pl.mbaleczny.instalike.domain.DataSource;
+import pl.mbaleczny.instalike.domain.model.Like;
 import pl.mbaleczny.instalike.domain.model.News;
 import pl.mbaleczny.instalike.domain.model.Post;
+import pl.mbaleczny.instalike.domain.model.User;
 
 public class NewsPresenterTest {
 
@@ -71,6 +73,47 @@ public class NewsPresenterTest {
         Mockito.verify(repo).getNewsFeed(Mockito.eq(1L), Mockito.eq(1L));
         Mockito.verify(view, Mockito.never()).setPosts(Mockito.anyListOf(Post.class));
         Mockito.verify(view).showMessage(Mockito.eq("Error"));
+        Mockito.verify(view).hideProgress();
+    }
+
+    @Test
+    public void onLoadLikes_isSuccessful() throws Exception {
+        User u = new User();
+        u.setUsername("tester");
+
+        Like like = new Like();
+        like.setUser(u);
+
+        Mockito.when(repo.getLikes(Mockito.eq(1L)))
+                .thenReturn(Single.just(Collections.singletonList(like)));
+
+        presenter.attachView(view);
+        presenter.onLoadLikes(1L);
+
+        Mockito.verify(view).showProgress();
+        Mockito.verify(repo).getLikes(Mockito.eq(1L));
+        Mockito.verify(view).openLikesListView(Mockito.anyListOf(User.class));
+        Mockito.verify(view).hideProgress();
+    }
+
+    @Test
+    public void onLoadLikes_throwsException() throws Exception {
+        User u = new User();
+        u.setUsername("tester");
+
+        Like like = new Like();
+        like.setUser(u);
+
+        Mockito.when(repo.getLikes(Mockito.eq(1L)))
+                .thenReturn(Single.error(new RuntimeException("error")));
+
+        presenter.attachView(view);
+        presenter.onLoadLikes(1L);
+
+        Mockito.verify(view).showProgress();
+        Mockito.verify(repo).getLikes(Mockito.eq(1L));
+        Mockito.verify(view, Mockito.never()).openLikesListView(Mockito.anyListOf(User.class));
+        Mockito.verify(view).showMessage(Mockito.eq("error"));
         Mockito.verify(view).hideProgress();
     }
 

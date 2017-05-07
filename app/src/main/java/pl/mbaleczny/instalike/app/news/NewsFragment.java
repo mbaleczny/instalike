@@ -17,7 +17,9 @@ import javax.inject.Inject;
 
 import dagger.Lazy;
 import pl.mbaleczny.instalike.R;
+import pl.mbaleczny.instalike.app.likes.LikesDialogFragment;
 import pl.mbaleczny.instalike.domain.model.Post;
+import pl.mbaleczny.instalike.domain.model.User;
 
 public class NewsFragment extends Fragment implements NewsContract.View {
 
@@ -89,6 +91,11 @@ public class NewsFragment extends Fragment implements NewsContract.View {
     @Override
     public void setPosts(List<Post> posts) {
         postAdapter.swapList(posts);
+    }
+
+    @Override
+    public void openLikesListView(List<User> userList) {
+        LikesDialogFragment.newInstance(userList).show(getFragmentManager(), LikesDialogFragment.TAG);
     }
 
     @Override
