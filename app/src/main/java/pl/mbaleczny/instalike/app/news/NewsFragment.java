@@ -4,6 +4,7 @@ package pl.mbaleczny.instalike.app.news;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +16,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import dagger.Lazy;
 import pl.mbaleczny.instalike.R;
 import pl.mbaleczny.instalike.app.likes.LikesDialogFragment;
@@ -26,13 +29,18 @@ public class NewsFragment extends Fragment implements NewsContract.View {
     private static final String EVENT_ID = "eventId";
     private static final String USER_ID = "userId";
 
+    @BindView(R.id.fragment_post_recycler)
+    RecyclerView postRecycler;
+    @BindView(R.id.fragment_news_swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefresh;
+
     @Inject
     NewsContract.Presenter presenter;
 
     private Lazy<Long> eventId = () -> getArguments().getLong(EVENT_ID);
     private Lazy<Long> userId = () -> getArguments().getLong(USER_ID);
 
-    private RecyclerView postRecycler;
+
     private PostRecyclerAdapter postAdapter;
 
     public NewsFragment() {
@@ -56,10 +64,7 @@ public class NewsFragment extends Fragment implements NewsContract.View {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_news, container, false);
-        postRecycler = (RecyclerView) v.findViewById(R.id.fragment_post_recycler);
-        setupNewsRecycler();
-        return v;
+        return inflater.inflate(R.layout.fragment_news, container, false);
     }
 
     private void setupNewsRecycler() {
@@ -71,9 +76,16 @@ public class NewsFragment extends Fragment implements NewsContract.View {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
+        setupNewsRecycler();
+        setupSwipeRefreshLayout();
         presenter.attachView(this);
         presenter.setNewsIds(eventId.get(), userId.get());
         presenter.onLoadFirstPage();
+    }
+
+    private void setupSwipeRefreshLayout() {
+        swipeRefresh.setOnRefreshListener(() -> presenter.onLoadFirstPage());
     }
 
     @Override
@@ -110,11 +122,11 @@ public class NewsFragment extends Fragment implements NewsContract.View {
 
     @Override
     public void showProgress() {
-        // TODO: 06.05.17
+        swipeRefresh.setRefreshing(true);
     }
 
     @Override
     public void hideProgress() {
-        // TODO: 06.05.17
+        swipeRefresh.setRefreshing(false);
     }
 }
