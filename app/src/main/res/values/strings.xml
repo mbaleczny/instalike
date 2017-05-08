@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">instalike</string>
+    <string name="app_name">INSTALIKE</string>
     <string name="log_in">Log in</string>
     <string name="first_and_last_name_pattern">%1$s %2$s</string>
     <string name="nobody_has_liked_this_yet">Nobody has liked this yet</string>
