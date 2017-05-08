@@ -1,6 +1,7 @@
 package pl.mbaleczny.instalike.dagger.app;
 
 import android.app.Application;
+import android.content.Context;
 
 import javax.inject.Singleton;
 
@@ -18,7 +19,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    Application getApplication() {
+    Context getApplication() {
         return application;
     }
 }

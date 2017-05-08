@@ -89,6 +89,7 @@
                     app:layout_collapseMode="pin">
 
                     <TextView
+                        android:id="@+id/activity_comment_toolbar_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/activity_comment_toolbar_title_bottom_margin"

@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -33,15 +34,22 @@ import pl.mbaleczny.instalike.dagger.comment.CommentModule;
 import pl.mbaleczny.instalike.dagger.comment.DaggerCommentComponent;
 import pl.mbaleczny.instalike.domain.model.Comment;
 import pl.mbaleczny.instalike.domain.model.Post;
+import pl.mbaleczny.instalike.util.FontUtil;
 
 public class CommentsActivity extends AppCompatActivity implements CommentsContract.View {
 
     public static final String POST_ARG = "postArg";
 
+    @BindView(R.id.activity_comment_toolbar_title)
+    TextView toolbarTitle;
     @BindView(R.id.activity_comment_text)
     TextView commentText;
     @BindView(R.id.activity_comment_likes_counter)
     TextView likesCounter;
+    @BindView(R.id.activity_comment_empty_list_label)
+    TextView emptyListLabel;
+    @BindView(R.id.activity_comment_input_text)
+    EditText inputText;
     @BindView(R.id.activity_comment_image)
     ImageView image;
 
@@ -66,6 +74,9 @@ public class CommentsActivity extends AppCompatActivity implements CommentsContr
     @Inject
     CommentsContract.Presenter presenter;
 
+    @Inject
+    FontUtil fontUtil;
+
     private CommentsRecyclerAdapter commentsAdapter;
     private Post post;
 
@@ -87,6 +98,12 @@ public class CommentsActivity extends AppCompatActivity implements CommentsContr
             commentsAdapter.swapList(new ArrayList<>());
             presenter.onLoadData(post.getId());
         });
+
+        fontUtil.setTrumpGothicEastBoldFont(toolbarTitle);
+        fontUtil.setMonserratLightFont(commentText);
+        fontUtil.setMonserratLightFont(likesCounter);
+        fontUtil.setMonserratLightFont(emptyListLabel);
+        fontUtil.setMonserratLightFont(inputText);
     }
 
     @Override

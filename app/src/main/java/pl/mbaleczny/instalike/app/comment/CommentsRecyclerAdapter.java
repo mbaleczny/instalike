@@ -10,17 +10,22 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import pl.mbaleczny.instalike.R;
 import pl.mbaleczny.instalike.domain.model.Comment;
+import pl.mbaleczny.instalike.util.FontUtil;
 
 public class CommentsRecyclerAdapter
         extends RecyclerView.Adapter<CommentsRecyclerAdapter.ViewHolder> {
 
     private LayoutInflater inflater;
     private List<Comment> commentList;
+    private FontUtil fontUtil;
 
     public CommentsRecyclerAdapter(Context context) {
         this.inflater = LayoutInflater.from(context);
+        this.fontUtil = new FontUtil(context);
         commentList = new ArrayList<>();
     }
 
@@ -49,12 +54,16 @@ public class CommentsRecyclerAdapter
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView user, content;
+        @BindView(R.id.comment_vh_user)
+        TextView user;
+        @BindView(R.id.comment_vh_content)
+        TextView content;
 
         ViewHolder(View itemView) {
             super(itemView);
-            user = (TextView) itemView.findViewById(R.id.comment_vh_user);
-            content = (TextView) itemView.findViewById(R.id.comment_vh_content);
+            ButterKnife.bind(this, itemView);
+            fontUtil.setTrumpGothicEastBoldFont(user);
+            fontUtil.setMonserratLightFont(content);
         }
 
         void bind(Comment comment) {

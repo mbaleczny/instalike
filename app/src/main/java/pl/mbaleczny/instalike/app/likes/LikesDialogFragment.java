@@ -27,6 +27,7 @@ import pl.mbaleczny.instalike.R;
 import pl.mbaleczny.instalike.dagger.likes.DaggerLikesComponent;
 import pl.mbaleczny.instalike.dagger.likes.LikesModule;
 import pl.mbaleczny.instalike.domain.model.User;
+import pl.mbaleczny.instalike.util.FontUtil;
 
 public class LikesDialogFragment extends DialogFragment implements LikesContract.View {
 
@@ -40,9 +41,13 @@ public class LikesDialogFragment extends DialogFragment implements LikesContract
     RecyclerView userRecycler;
     @BindView(R.id.dialog_likes_list_message)
     TextView message;
+    @BindView(R.id.dialog_likes_list_title)
+    TextView listTitle;
 
     @Inject
     LikesContract.Presenter presenter;
+    @Inject
+    FontUtil fontUtil;
 
     private LikesRecyclerAdapter likesAdapter;
 
@@ -77,6 +82,9 @@ public class LikesDialogFragment extends DialogFragment implements LikesContract
         userRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         likesAdapter = new LikesRecyclerAdapter(inflater);
         userRecycler.setAdapter(likesAdapter);
+
+        fontUtil.setMonserratLightFont(listTitle);
+        fontUtil.setMonserratLightFont(message);
 
         return v;
     }
@@ -170,6 +178,7 @@ public class LikesDialogFragment extends DialogFragment implements LikesContract
 
             ViewHolder(View itemView) {
                 super(itemView);
+                fontUtil.setMonserratLightFont((TextView) itemView);
             }
 
             void bind(User user) {

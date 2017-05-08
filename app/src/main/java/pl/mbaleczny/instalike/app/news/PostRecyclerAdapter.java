@@ -17,16 +17,21 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.BindViews;
+import butterknife.ButterKnife;
 import pl.mbaleczny.instalike.R;
 import pl.mbaleczny.instalike.app.comment.CommentsActivity;
 import pl.mbaleczny.instalike.app.likes.OnClickLikesListener;
 import pl.mbaleczny.instalike.domain.model.Post;
+import pl.mbaleczny.instalike.util.FontUtil;
 
 public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapter.ViewHolder> {
 
     private final Context context;
     private final LayoutInflater inflater;
     private final List<Post> postList;
+    private FontUtil fontUtil;
     private OnClickLikesListener<Post> onClickLikesListener;
     private OnLastVisibleItemPositionListener onLastVisibleItemListener;
 
@@ -34,6 +39,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
                                OnLastVisibleItemPositionListener onLastVisibleItemListener) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
+        this.fontUtil = new FontUtil(context);
         this.postList = new ArrayList<>();
         this.onClickLikesListener = onClickLikesListener;
         this.onLastVisibleItemListener = onLastVisibleItemListener;
@@ -78,43 +84,51 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView title, user, comments, likes;
-        private ImageView image;
-        private ImageButton like;
-        private ProgressBar progressBar;
+        private final static int TITLE = 0, USER = 1, COMMENTS = 2, LIKES = 3;
+
+        @BindViews({R.id.post_vh_title,
+                R.id.post_vh_user,
+                R.id.post_vh_comments_counter,
+                R.id.post_vh_likes_counter})
+        List<TextView> texts;
+
+        @BindView(R.id.post_vh_image)
+        ImageView image;
+        @BindView(R.id.post_vh_like_button)
+        ImageButton like;
+        @BindView(R.id.post_vh_progress_bar)
+        ProgressBar progressBar;
 
         ViewHolder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.post_vh_title);
-            user = (TextView) itemView.findViewById(R.id.post_vh_user);
-            comments = (TextView) itemView.findViewById(R.id.post_vh_comments_counter);
-            likes = (TextView) itemView.findViewById(R.id.post_vh_likes_counter);
-            image = (ImageView) itemView.findViewById(R.id.post_vh_image);
-            like = (ImageButton) itemView.findViewById(R.id.post_vh_like_button);
-            progressBar = (ProgressBar) itemView.findViewById(R.id.post_vh_progress_bar);
+            ButterKnife.bind(this, itemView);
         }
 
         void bind(Post post) {
             if (!TextUtils.isEmpty(post.getComment())) {
-                title.setVisibility(View.VISIBLE);
-                title.setText(post.getComment());
+                fontUtil.setMonserratLightFont(texts.get(TITLE));
+                texts.get(TITLE).setVisibility(View.VISIBLE);
+                texts.get(TITLE).setText(post.getComment());
             } else {
-                title.setVisibility(View.GONE);
+                texts.get(TITLE).setVisibility(View.GONE);
             }
 
-            user.setText(post.getUser().getUsername());
-            user.setOnClickListener(v -> {
-                user.setText(
+            fontUtil.setTrumpGothicEastBoldFont(texts.get(USER));
+            texts.get(USER).setText(post.getUser().getUsername());
+            texts.get(USER).setOnClickListener(v -> {
+                texts.get(USER).setText(
                         String.format(context.getString(R.string.first_and_last_name_pattern),
                                 post.getUser().getFirstName(), post.getUser().getLastName()));
-                        user.setOnClickListener(null);
+                texts.get(USER).setOnClickListener(null);
                     }
             );
 
-            comments.setText(String.valueOf(post.getCommentsCount()));
+            fontUtil.setMonserratLightFont(texts.get(COMMENTS));
+            texts.get(COMMENTS).setText(String.valueOf(post.getCommentsCount()));
 
-            likes.setText(String.valueOf(post.getLikesCount()));
-            likes.setOnClickListener(v -> onClickLikesListener.onClick(post));
+            fontUtil.setMonserratLightFont(texts.get(LIKES));
+            texts.get(LIKES).setText(String.valueOf(post.getLikesCount()));
+            texts.get(LIKES).setOnClickListener(v -> onClickLikesListener.onClick(post));
 
             like.setBackgroundResource(post.isUserLiked() ?
                     R.mipmap.like_button_selected :
