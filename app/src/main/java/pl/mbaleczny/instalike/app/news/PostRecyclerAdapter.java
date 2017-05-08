@@ -26,7 +26,7 @@ import pl.mbaleczny.instalike.app.likes.OnClickLikesListener;
 import pl.mbaleczny.instalike.domain.model.Post;
 import pl.mbaleczny.instalike.util.FontUtil;
 
-public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapter.ViewHolder> {
+class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapter.ViewHolder> {
 
     private final Context context;
     private final LayoutInflater inflater;
@@ -35,8 +35,8 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
     private OnClickLikesListener<Post> onClickLikesListener;
     private OnLastVisibleItemPositionListener onLastVisibleItemListener;
 
-    public PostRecyclerAdapter(Context context, OnClickLikesListener<Post> onClickLikesListener,
-                               OnLastVisibleItemPositionListener onLastVisibleItemListener) {
+    PostRecyclerAdapter(Context context, OnClickLikesListener<Post> onClickLikesListener,
+                        OnLastVisibleItemPositionListener onLastVisibleItemListener) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.fontUtil = new FontUtil(context);
@@ -64,20 +64,20 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         return postList.size();
     }
 
-    public void swapList(List<Post> posts) {
+    void swapList(List<Post> posts) {
         // TODO DiffUtil
         this.postList.clear();
         this.postList.addAll(posts);
         notifyDataSetChanged();
     }
 
-    public void addElements(List<Post> posts) {
+    void addElements(List<Post> posts) {
         // TODO DiffUtil
         this.postList.addAll(posts);
         notifyDataSetChanged();
     }
 
-    public interface OnLastVisibleItemPositionListener {
+    interface OnLastVisibleItemPositionListener {
 
         void call();
     }
@@ -95,7 +95,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         @BindView(R.id.post_vh_image)
         ImageView image;
         @BindView(R.id.post_vh_like_button)
-        ImageButton like;
+        ImageButton likeButton;
         @BindView(R.id.post_vh_progress_bar)
         ProgressBar progressBar;
 
@@ -105,32 +105,12 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         }
 
         void bind(Post post) {
-            if (!TextUtils.isEmpty(post.getComment())) {
-                fontUtil.setMonserratLightFont(texts.get(TITLE));
-                texts.get(TITLE).setVisibility(View.VISIBLE);
-                texts.get(TITLE).setText(post.getComment());
-            } else {
-                texts.get(TITLE).setVisibility(View.GONE);
-            }
+            bindTitle(post);
+            bindUsername(post);
+            bindCommentsCount(post);
+            bindLikesCount(post);
 
-            fontUtil.setTrumpGothicEastBoldFont(texts.get(USER));
-            texts.get(USER).setText(post.getUser().getUsername());
-            texts.get(USER).setOnClickListener(v -> {
-                texts.get(USER).setText(
-                        String.format(context.getString(R.string.first_and_last_name_pattern),
-                                post.getUser().getFirstName(), post.getUser().getLastName()));
-                texts.get(USER).setOnClickListener(null);
-                    }
-            );
-
-            fontUtil.setMonserratLightFont(texts.get(COMMENTS));
-            texts.get(COMMENTS).setText(String.valueOf(post.getCommentsCount()));
-
-            fontUtil.setMonserratLightFont(texts.get(LIKES));
-            texts.get(LIKES).setText(String.valueOf(post.getLikesCount()));
-            texts.get(LIKES).setOnClickListener(v -> onClickLikesListener.onClick(post));
-
-            like.setBackgroundResource(post.isUserLiked() ?
+            likeButton.setBackgroundResource(post.isUserLiked() ?
                     R.mipmap.like_button_selected :
                     R.mipmap.like_button_unselected);
 
@@ -148,6 +128,41 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
                     .listener(new ImageLoadRequestListener(progressBar))
                     .centerCrop()
                     .into(image);
+        }
+
+        private void bindLikesCount(Post post) {
+            fontUtil.setMonserratLightFont(texts.get(LIKES));
+            texts.get(LIKES).setText(String.valueOf(post.getLikesCount()));
+            texts.get(LIKES).setOnClickListener(v -> onClickLikesListener.onClick(post));
+        }
+
+        private void bindCommentsCount(Post post) {
+            fontUtil.setMonserratLightFont(texts.get(COMMENTS));
+            texts.get(COMMENTS).setText(String.valueOf(post.getCommentsCount()));
+        }
+
+        private void bindUsername(Post post) {
+            fontUtil.setTrumpGothicEastBoldFont(texts.get(USER));
+            texts.get(USER).setText(post.getUser().getUsername());
+            texts.get(USER).setOnClickListener(v -> {
+                        texts.get(USER).setText(
+                                String.format(context.getString(R.string.first_and_last_name_pattern),
+                                        post.getUser().getFirstName(), post.getUser().getLastName()));
+                        texts.get(USER).setOnClickListener(null);
+                    }
+            );
+        }
+
+        private void bindTitle(Post post) {
+            if (!TextUtils.isEmpty(post.getComment())) {
+                fontUtil.setMonserratLightFont(texts.get(TITLE));
+                texts.get(TITLE).setVisibility(View.VISIBLE);
+                texts.get(TITLE).setText(String.format(
+                        context.getString(R.string.comment_text_pattern),
+                        post.getComment()));
+            } else {
+                texts.get(TITLE).setVisibility(View.GONE);
+            }
         }
     }
 }
