@@ -1,10 +1,12 @@
 package pl.mbaleczny.instalike.app.likes;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,14 +24,15 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import pl.mbaleczny.instalike.App;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.AndroidSupportInjection;
+import dagger.android.support.HasSupportFragmentInjector;
 import pl.mbaleczny.instalike.R;
-import pl.mbaleczny.instalike.dagger.likes.DaggerLikesComponent;
-import pl.mbaleczny.instalike.dagger.likes.LikesModule;
 import pl.mbaleczny.instalike.domain.model.User;
 import pl.mbaleczny.instalike.util.FontUtil;
 
-public class LikesDialogFragment extends DialogFragment implements LikesContract.View {
+public class LikesDialogFragment extends DialogFragment implements LikesContract.View, HasSupportFragmentInjector {
 
     public static final String TAG = "LikesDialogFragment";
 
@@ -49,6 +52,9 @@ public class LikesDialogFragment extends DialogFragment implements LikesContract
     @Inject
     FontUtil fontUtil;
 
+    @Inject
+    DispatchingAndroidInjector<Fragment> childFragmentInjector;
+
     private LikesRecyclerAdapter likesAdapter;
 
     public static LikesDialogFragment newInstance(long imageId) {
@@ -59,16 +65,26 @@ public class LikesDialogFragment extends DialogFragment implements LikesContract
         return d;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return childFragmentInjector;
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        AndroidSupportInjection.inject(this);
         Dialog dialog = super.onCreateDialog(savedInstanceState);
 
         if (dialog.getWindow() != null) {
             dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         }
-
-        injectDependencies();
 
         return dialog;
     }
@@ -135,13 +151,6 @@ public class LikesDialogFragment extends DialogFragment implements LikesContract
 
     private boolean hasImageIdArgument() {
         return getArguments() == null || getArguments().containsKey(IMAGE_ID_ARG);
-    }
-
-    private void injectDependencies() {
-        DaggerLikesComponent.builder()
-                .domainComponent(((App) getActivity().getApplication()).getDomainComponent())
-                .likesModule(new LikesModule())
-                .build().inject(this);
     }
 
     private class LikesRecyclerAdapter extends RecyclerView.Adapter<LikesRecyclerAdapter.ViewHolder> {

@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,6 +126,7 @@ class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapter.ViewH
 
             Glide.with(context)
                     .load(post.getImageUrl())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .listener(new ImageLoadRequestListener(progressBar))
                     .centerCrop()
                     .into(image);

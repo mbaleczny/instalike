@@ -2,6 +2,8 @@ package pl.mbaleczny.instalike.domain;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Single;
 import io.reactivex.SingleTransformer;
 import pl.mbaleczny.instalike.BuildConfig;
@@ -16,6 +18,7 @@ public class Repository implements DataSource {
     private final InstalikeApi api;
     private final BaseSchedulerProvider scheduler;
 
+    @Inject
     public Repository(InstalikeApi api, BaseSchedulerProvider scheduler) {
         this.api = api;
         this.scheduler = scheduler;

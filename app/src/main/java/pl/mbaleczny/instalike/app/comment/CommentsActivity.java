@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -27,16 +26,14 @@ import javax.inject.Inject;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import pl.mbaleczny.instalike.App;
+import dagger.android.support.DaggerAppCompatActivity;
 import pl.mbaleczny.instalike.R;
 import pl.mbaleczny.instalike.app.likes.LikesDialogFragment;
-import pl.mbaleczny.instalike.dagger.comment.CommentModule;
-import pl.mbaleczny.instalike.dagger.comment.DaggerCommentComponent;
 import pl.mbaleczny.instalike.domain.model.Comment;
 import pl.mbaleczny.instalike.domain.model.Post;
 import pl.mbaleczny.instalike.util.FontUtil;
 
-public class CommentsActivity extends AppCompatActivity implements CommentsContract.View {
+public class CommentsActivity extends DaggerAppCompatActivity implements CommentsContract.View {
 
     public static final String POST_ARG = "postArg";
 
@@ -85,11 +82,6 @@ public class CommentsActivity extends AppCompatActivity implements CommentsContr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
         ButterKnife.bind(this);
-
-        DaggerCommentComponent.builder()
-                .domainComponent(((App) getApplication()).getDomainComponent())
-                .commentModule(new CommentModule())
-                .build().inject(this);
 
         setupToolbars();
         setupCommentsRecycler();

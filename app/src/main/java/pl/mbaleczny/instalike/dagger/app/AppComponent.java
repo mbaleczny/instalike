@@ -1,27 +1,32 @@
 package pl.mbaleczny.instalike.dagger.app;
 
-import android.content.Context;
-
 import javax.inject.Singleton;
 
 import dagger.Component;
-import pl.mbaleczny.instalike.util.FontUtil;
-import pl.mbaleczny.instalike.util.scheduler.BaseSchedulerProvider;
-import retrofit2.Retrofit;
+import dagger.android.AndroidInjector;
+import dagger.android.support.AndroidSupportInjectionModule;
+import pl.mbaleczny.instalike.App;
+import pl.mbaleczny.instalike.dagger.comment.CommentModule;
+import pl.mbaleczny.instalike.dagger.domain.DomainModule;
+import pl.mbaleczny.instalike.dagger.likes.LikesModule;
+import pl.mbaleczny.instalike.dagger.news.NewsModule;
 
 @Singleton
 @Component(
         modules = {
                 AppModule.class,
+                DomainModule.class,
                 NetworkModule.class,
-                SchedulerModule.class})
-public interface AppComponent {
+                SchedulerModule.class,
+                NewsModule.class,
+                CommentModule.class,
+                LikesModule.class,
+                AndroidBindingModule.class,
+                AndroidSupportInjectionModule.class
+        })
+interface AppComponent extends AndroidInjector<App> {
 
-    BaseSchedulerProvider scheduler();
-
-    Retrofit retrofit();
-
-    Context appContext();
-
-    FontUtil fontUtil();
+    @Component.Builder
+    abstract class Builder extends AndroidInjector.Builder<App> {
+    }
 }

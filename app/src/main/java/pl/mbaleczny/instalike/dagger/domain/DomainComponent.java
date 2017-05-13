@@ -1,16 +1,18 @@
 package pl.mbaleczny.instalike.dagger.domain;
 
-import dagger.Component;
-import pl.mbaleczny.instalike.dagger.app.AppComponent;
+import dagger.Subcomponent;
 import pl.mbaleczny.instalike.dagger.scope.DomainScope;
-import pl.mbaleczny.instalike.domain.DataSource;
-import pl.mbaleczny.instalike.util.FontUtil;
+import pl.mbaleczny.instalike.domain.Repository;
 
 @DomainScope
-@Component(dependencies = AppComponent.class, modules = DomainModule.class)
+@Subcomponent(modules = ServiceFactoryModule.class)
 public interface DomainComponent {
 
-    DataSource dataSource();
+    Repository repository();
 
-    FontUtil fontUtil();
+    @Subcomponent.Builder
+    interface Builder {
+
+        DomainComponent build();
+    }
 }
